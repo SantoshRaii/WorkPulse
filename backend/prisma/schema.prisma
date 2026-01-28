@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Worker {
+  id     String  @id
+  name   String
+  events Event[]
+}
+
+model Workstation {
+  id     String  @id
+  name   String
+  events Event[]
+}
+
+model Event {
+  id             Int      @id @default(autoincrement())
+  timestamp      DateTime
+  event_type     String
+  confidence     Float?
+  count          Int?
+
+  worker_id      String
+  workstation_id String
+
+  worker         Worker      @relation(fields: [worker_id], references: [id])
+  workstation    Workstation @relation(fields: [workstation_id], references: [id])
+
+  @@index([worker_id, timestamp])
+  @@index([workstation_id, timestamp])
+}
