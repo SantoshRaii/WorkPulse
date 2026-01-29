@@ -4,7 +4,7 @@ import FactoryCards from "./components/FactoryCards";
 import WorkerTable from "./components/WorkerTable";
 import StationTable from "./components/StationTable";
 
-const API = "http://localhost:4000/api/metrics";
+const API = import.meta.env.VITE_API_URL + "/api/metrics";
 
 function App() {
   const [factory, setFactory] = useState(null);
